@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Account Showcase - Pudgy Penguins</title>
+  <style>
+   body {
+  background-color: #e9f7fa;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  color: #20324f;
+}
+
+
+    .topbar {
+      background-color: rgba(255, 255, 255, 0.9);
+      padding: 1rem 2rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      gap: 1rem;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    }
+
+    .topbar h2 {
+      margin: 0;
+      font-size: 1.6rem;
+      color: #5093c4;
+      flex: 1 1 100%;
+    }
+
+    .topbar nav {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+    }
+
+    .topbar nav a {
+      text-decoration: none;
+      color: #20324f;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    .topbar nav a:hover {
+      color: #5093c4;
+    }
+
+    h1 {
+      color: #5093c4;
+      text-align: center;
+      margin-top: 2rem;
+    }
+
+    .switch-buttons {
+      text-align: center;
+      margin: 2rem 0 1rem;
+    }
+
+    .switch-buttons button {
+      background-color: #5093c4;
+      color: white;
+      border: none;
+      padding: 0.7rem 1.5rem;
+      margin: 0 0.5rem;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .switch-buttons button:hover,
+    .switch-buttons button.active {
+      background-color: #3a729e;
+    }
+
+    .grid {
+      display: none;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+      padding: 2rem;
+      width: 100%;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .grid.active {
+      display: grid;
+    }
+
+    .card {
+      background-color: rgba(255, 255, 255, 0.95);
+      padding: 1.5rem;
+      border-radius: 12px;
+      text-align: center;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+      transition: transform 0.3s;
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+    }
+
+    .card img {
+      width: 100px;
+      height: 100px;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+    }
+
+    .card h3 {
+      margin-bottom: 0.8rem;
+      color: #5093c4;
+      font-size: 1.2rem;
+    }
+
+    .card .buttons {
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+
+    .card .buttons a {
+      text-decoration: none;
+      padding: 0.5rem 1rem;
+      background-color: #5093c4;
+      color: white;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: background 0.3s ease;
+    }
+
+    .card .buttons a:hover {
+      background-color: #3a729e;
+    }
+
+    footer {
+      background-color: rgba(80, 147, 196, 0.95);
+      color: #ffffff;
+      text-align: center;
+      padding: 1rem;
+      margin-top: auto;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="topbar">
+    <h2>Pudgy Penguins</h2>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="coin-calculator.html">Coins</a>
+      <a href="account-showcase.html">Accounts</a>
+      <a href="https://discord.com/invite/4EchrPDbw8" target="_blank">Discord</a>
+    </nav>
+  </div>
+
+  <h1>Showcase</h1>
+
+  <div class="switch-buttons">
+    <button id="showAccountsBtn" class="active" onclick="switchCategory('accounts')">Accounts</button>
+    <button id="showProfilesBtn" onclick="switchCategory('profiles')">Profiles</button>
+  </div>
+
+  <!-- Accounts Grid -->
+  <div class="grid active" id="accountsGrid">
+    <div class="card">
+      <img src="https://mc-heads.net/avatar/Username1" alt="Minecraft Head">
+      <h3>Username1</h3>
+      <div class="buttons">
+        <a href="https://discord.gg/4EchrPDbw8" target="_blank">Buy Now</a>
+        <a href="https://cupcake.shiiyu.moe/stats/Username1" target="_blank">Stats</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="https://mc-heads.net/avatar/Username2" alt="Minecraft Head">
+      <h3>Username2</h3>
+      <div class="buttons">
+        <a href="https://discord.gg/4EchrPDbw8" target="_blank">Buy Now</a>
+        <a href="https://cupcake.shiiyu.moe/stats/Username2" target="_blank">Stats</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="https://mc-heads.net/avatar/Username3" alt="Minecraft Head">
+      <h3>Username3</h3>
+      <div class="buttons">
+        <a href="https://discord.gg/4EchrPDbw8" target="_blank">Buy Now</a>
+        <a href="https://cupcake.shiiyu.moe/stats/Username3" target="_blank">Stats</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="https://mc-heads.net/avatar/Username4" alt="Minecraft Head">
+      <h3>Username4</h3>
+      <div class="buttons">
+        <a href="https://discord.gg/4EchrPDbw8" target="_blank">Buy Now</a>
+        <a href="https://cupcake.shiiyu.moe/stats/Username4" target="_blank">Stats</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="https://mc-heads.net/avatar/Username5" alt="Minecraft Head">
+      <h3>Username5</h3>
+      <div class="buttons">
+        <a href="https://discord.gg/4EchrPDbw8" target="_blank">Buy Now</a>
+        <a href="https://cupcake.shiiyu.moe/stats/Username5" target="_blank">Stats</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="https://mc-heads.net/avatar/Username6" alt="Minecraft Head">
+      <h3>Username6</h3>
+      <div class="buttons">
+        <a href="https://discord.gg/4EchrPDbw8" target="_blank">Buy Now</a>
+        <a href="https://cupcake.shiiyu.moe/stats/Username6" target="_blank">Stats</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="https://mc-heads.net/avatar/Username7" alt="Minecraft Head">
+      <h3>Username7</h3>
+      <div class="buttons">
+        <a href="https://discord.gg/4EchrPDbw8" target="_blank">Buy Now</a>
+        <a href="https://cupcake.shiiyu.moe/stats/Username7" target="_blank">Stats</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Profiles Grid -->
+  <div class="grid" id="profilesGrid">
+    <div class="card">
+      <img src="https://mc-heads.net/avatar/ProfileUser1" alt="Minecraft Head">
+      <h3>Profile1</h3>
+      <div class="buttons">
+        <a href="https://discord.gg/4EchrPDbw8" target="_blank">View Profile</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="https://mc-heads.net/avatar/ProfileUser2" alt="Minecraft Head">
+      <h3>Profile2</h3>
+      <div class="buttons">
+        <a href="https://discord.gg/4EchrPDbw8" target="_blank">View Profile</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="https://mc-heads.net/avatar/ProfileUser3" alt="Minecraft Head">
+      <h3>Profile3</h3>
+      <div class="buttons">
+        <a href="https://discord.gg/4EchrPDbw8" target="_blank">View Profile</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="https://mc-heads.net/avatar/ProfileUser4" alt="Minecraft Head">
+      <h3>Profile4</h3>
+      <div class="buttons">
+        <a href="https://discord.gg/4EchrPDbw8" target="_blank">View Profile</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="https://mc-heads.net/avatar/ProfileUser5" alt="Minecraft Head">
+      <h3>Profile5</h3>
+      <div class="buttons">
+        <a href="https://discord.gg/4EchrPDbw8" target="_blank">View Profile</a>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    &copy; 2025 Pudgy Penguins. All rights reserved.
+  </footer>
+
+  <script>
+    function switchCategory(category) {
+      const accountsGrid = document.getElementById('accountsGrid');
+      const profilesGrid = document.getElementById('profilesGrid');
+      const accountsBtn = document.getElementById('showAccountsBtn');
+      const profilesBtn = document.getElementById('showProfilesBtn');
+
+      if (category === 'accounts') {
+        accountsGrid.classList.add('active');
+        profilesGrid.classList.remove('active');
+        accountsBtn.classList.add('active');
+        profilesBtn.classList.remove('active');
+      } else {
+        profilesGrid.classList.add('active');
+        accountsGrid.classList.remove('active');
+        profilesBtn.classList.add('active');
+        accountsBtn.classList.remove('active');
+      }
+    }
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Coin Price Calculator - Pudgy Penguins</title>
+  <style>
+    body {
+  background-color: #e9f7fa;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  color: #20324f;
+}
+
+
+    .topbar {
+      background-color: rgba(255, 255, 255, 0.9);
+      padding: 1rem 2rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      gap: 1rem;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    }
+
+    .topbar h2 {
+      margin: 0;
+      font-size: 1.6rem;
+      color: #5093c4;
+      flex: 1 1 100%;
+    }
+
+    .topbar nav {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+    }
+
+    .topbar nav a {
+      text-decoration: none;
+      color: #20324f;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    .topbar nav a:hover {
+      color: #5093c4;
+    }
+
+    h1 {
+      color: #5093c4;
+      text-align: center;
+      margin-top: 3rem;
+    }
+
+    .calculator {
+      background-color: rgba(255, 255, 255, 0.95);
+      padding: 2rem;
+      border-radius: 16px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+      width: 90%;
+      max-width: 400px;
+      margin: 2rem auto;
+      text-align: center;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+      color: #20324f;
+    }
+
+    input[type="range"] {
+      width: 100%;
+    }
+
+    .result {
+      margin-top: 1.5rem;
+      font-size: 1.3rem;
+      color: #5093c4;
+    }
+
+    .value-display {
+      font-weight: bold;
+      margin-top: 0.5rem;
+    }
+
+    .discord-button {
+      display: inline-block;
+      margin-top: 2rem;
+      padding: 0.75rem 1.5rem;
+      background-color: #5865F2;
+      color: white;
+      font-weight: 600;
+      text-decoration: none;
+      border-radius: 10px;
+      transition: background 0.3s ease;
+    }
+
+    .discord-button:hover {
+      background-color: #4752C4;
+    }
+
+    footer {
+      background-color: rgba(80, 147, 196, 0.95);
+      color: #ffffff;
+      text-align: center;
+      padding: 1rem;
+      margin-top: auto;
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 600px) {
+      .topbar nav {
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <h2>Pudgy Penguins</h2>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="#">Coins</a>
+      <a href="account-showcase.html">Accounts</a>
+      <a href="https://discord.com/invite/4EchrPDbw8" target="_blank">Discord</a>
+    </nav>
+  </div>
+
+  <h1>Coin Price Calculator</h1>
+  <div class="calculator">
+    <img src="https://images-ext-1.discordapp.net/external/iYtFW-2XbeFqRl1r4r3Wjo2WLPQ9eHKmqqQnpyQgyFY/https/upload.wikimedia.org/wikipedia/commons/thumb/5/5b/Pudgy_Penguins_Logo.jpg/1200px-Pudgy_Penguins_Logo.jpg?format=webp&width=1022&height=536" alt="Pudgy Penguins Logo" style="width: 120px; margin-bottom: 1rem;">
+    <label for="coins">Amount of Coins (in Millions)</label>
+    <input type="range" id="coins" name="coins" min="1" max="1000" value="100" step="1" oninput="updatePrice()">
+    <div class="value-display"><span id="coinAmount">100</span> million coins</div>
+    <div class="result">Total Price: $<span id="totalPrice">3.00</span></div>
+    <a class="discord-button" href="https://discord.gg/4EchrPDbw8" target="_blank">Join our Discord</a>
+  </div>
+
+  <footer>
+    &copy; 2025 Pudgy Penguins. All rights reserved.
+  </footer>
+
+  <script>
+    function updatePrice() {
+      const coinSlider = document.getElementById('coins');
+      const coinAmount = parseInt(coinSlider.value);
+      const pricePerMil = 0.03;
+      const total = (coinAmount * pricePerMil).toFixed(2);
+
+      document.getElementById('coinAmount').innerText = coinAmount;
+      document.getElementById('totalPrice').innerText = total;
+    }
+
+    updatePrice();
+  </script>
+</body>
+</html>

@@ -1,23 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Coin Price Calculator - Pudgy Penguins</title>
   <style>
     body {
-  background-color: #e9f7fa;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  color: #20324f;
-}
-
+      background-color: #e9f7fa;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      color: #20324f;
+    }
 
     .topbar {
-      background-color: rgba(255, 255, 255, 0.9);
+      background-color: #ffffff;
       padding: 1rem 2rem;
       display: flex;
       flex-wrap: wrap;
@@ -33,6 +32,7 @@
       font-size: 1.6rem;
       color: #5093c4;
       flex: 1 1 100%;
+      text-align: center;
     }
 
     .topbar nav {
@@ -51,6 +51,26 @@
 
     .topbar nav a:hover {
       color: #5093c4;
+    }
+
+    .lang-toggle {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .lang-toggle button {
+      padding: 6px 12px;
+      background-color: #5093c4;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .lang-toggle button:hover {
+      background-color: #3a6b91;
     }
 
     h1 {
@@ -117,6 +137,14 @@
       font-size: 0.9rem;
     }
 
+    .lang {
+      display: none;
+    }
+
+    .lang.active {
+      display: block;
+    }
+
     @media (max-width: 600px) {
       .topbar nav {
         flex-direction: column;
@@ -126,24 +154,56 @@
   </style>
 </head>
 <body>
+
   <div class="topbar">
     <h2>Pudgy Penguins</h2>
     <nav>
       <a href="index.html">Home</a>
-      <a href="#">Coins</a>
+      <a href="coin-calculator.html">Coins</a>
       <a href="account-showcase.html">Accounts</a>
+      <a href="vouches.html">Vouches</a>
       <a href="https://discord.com/invite/4EchrPDbw8" target="_blank">Discord</a>
     </nav>
+    <div class="lang-toggle">
+      <button onclick="setLanguage('en')">EN</button>
+      <button onclick="setLanguage('fa')">FA</button>
+    </div>
   </div>
 
-  <h1>Coin Price Calculator</h1>
+  <div class="lang lang-en active">
+    <h1>Coin Price Calculator</h1>
+  </div>
+  <div class="lang lang-fa">
+    <h1>محاسبه قیمت کوین</h1>
+  </div>
+
   <div class="calculator">
     <img src="https://images-ext-1.discordapp.net/external/iYtFW-2XbeFqRl1r4r3Wjo2WLPQ9eHKmqqQnpyQgyFY/https/upload.wikimedia.org/wikipedia/commons/thumb/5/5b/Pudgy_Penguins_Logo.jpg/1200px-Pudgy_Penguins_Logo.jpg?format=webp&width=1022&height=536" alt="Pudgy Penguins Logo" style="width: 120px; margin-bottom: 1rem;">
-    <label for="coins">Amount of Coins (in Millions)</label>
+
+    <div class="lang lang-en active">
+      <label for="coins">Amount of Coins (in Millions)</label>
+    </div>
+    <div class="lang lang-fa">
+      <label for="coins">مقدار کوین (بر حسب میلیون)</label>
+    </div>
+
     <input type="range" id="coins" name="coins" min="1" max="1000" value="100" step="1" oninput="updatePrice()">
-    <div class="value-display"><span id="coinAmount">100</span> million coins</div>
-    <div class="result">Total Price: $<span id="totalPrice">3.00</span></div>
-    <a class="discord-button" href="https://discord.gg/4EchrPDbw8" target="_blank">Join our Discord</a>
+
+    <div class="value-display">
+      <span id="coinAmount">100</span>
+      <span class="lang lang-en active">million coins</span>
+      <span class="lang lang-fa">میلیون کوین</span>
+    </div>
+
+    <div class="result">
+      <span class="lang lang-en active">Total Price: $<span id="totalPrice">3.00</span></span>
+      <span class="lang lang-fa">قیمت کل: <span id="totalPriceFa">۳.۰۰</span> دلار</span>
+    </div>
+
+    <a class="discord-button" href="https://discord.gg/4EchrPDbw8" target="_blank">
+      <span class="lang lang-en active">Join our Discord</span>
+      <span class="lang lang-fa">به دیسکورد ما بپیوندید</span>
+    </a>
   </div>
 
   <footer>
@@ -156,12 +216,21 @@
       const coinAmount = parseInt(coinSlider.value);
       const pricePerMil = 0.03;
       const total = (coinAmount * pricePerMil).toFixed(2);
+      const faPrice = total.replace('.', '٫'); // Persian decimal
 
       document.getElementById('coinAmount').innerText = coinAmount;
       document.getElementById('totalPrice').innerText = total;
+      document.getElementById('totalPriceFa').innerText = faPrice;
+    }
+
+    function setLanguage(lang) {
+      document.querySelectorAll('.lang').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.lang-' + lang).forEach(el => el.classList.add('active'));
+      document.body.dir = (lang === 'fa') ? 'rtl' : 'ltr';
     }
 
     updatePrice();
   </script>
+
 </body>
 </html>

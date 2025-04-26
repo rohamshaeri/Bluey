@@ -1,20 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Pudgy Penguins - Home</title>
   <style>
     body {
-  background-color: #e9f7fa;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  color: #20324f;
-}
- 
+      background-color: #e9f7fa;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      color: #20324f;
+    }
 
     .topbar {
       background-color: rgba(255, 255, 255, 0.9);
@@ -23,7 +22,6 @@
       flex-wrap: wrap;
       justify-content: center;
       align-items: center;
-      text-align: center;
       gap: 1rem;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
     }
@@ -33,6 +31,7 @@
       font-size: 1.6rem;
       color: #5093c4;
       flex: 1 1 100%;
+      text-align: center;
     }
 
     .topbar nav {
@@ -53,6 +52,27 @@
       color: #5093c4;
     }
 
+    .lang-toggle {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+    }
+
+    .lang-toggle button {
+      padding: 6px 12px;
+      background-color: #5093c4;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .lang-toggle button:hover {
+      background-color: #3a6b91;
+    }
+
     header {
       text-align: center;
       margin: 3rem 1rem 2rem;
@@ -62,11 +82,6 @@
       width: 140px;
       border-radius: 16px;
       margin-bottom: 1rem;
-    }
-
-    header h1 {
-      color: #5093c4;
-      font-size: 2rem;
     }
 
     .buttons {
@@ -113,16 +128,6 @@
       transform: translateY(-5px);
     }
 
-    .feature h3 {
-      color: #5093c4;
-      margin-bottom: 0.5rem;
-    }
-
-    .feature p {
-      color: #405268;
-      font-size: 0.95rem;
-    }
-
     footer {
       background-color: rgba(80, 147, 196, 0.95);
       color: white;
@@ -136,9 +141,21 @@
       .topbar nav {
         flex-direction: column;
       }
+      .buttons {
+        flex-direction: column;
+      }
+    }
+
+    /* Hide/Show Languages */
+    .lang {
+      display: none;
+    }
+    .lang.active {
+      display: block;
     }
   </style>
 </head>
+
 <body>
   <div class="topbar">
     <h2>Pudgy Penguins</h2>
@@ -146,14 +163,24 @@
       <a href="#">Home</a>
       <a href="coin-calculator.html">Coins</a>
       <a href="account-showcase.html">Accounts</a>
+      <a href="vouches.html">Vouches</a>
       <a href="https://discord.gg/4EchrPDbw8" target="_blank">Discord</a>
-      <a href="vouches.html" target="_blank">Vouches</a>
     </nav>
+    <div class="lang-toggle">
+      <button onclick="setLanguage('en')">EN</button>
+      <button onclick="setLanguage('fa')">FA</button>
+    </div>
   </div>
 
   <header>
     <img src="https://images-ext-1.discordapp.net/external/iYtFW-2XbeFqRl1r4r3Wjo2WLPQ9eHKmqqQnpyQgyFY/https/upload.wikimedia.org/wikipedia/commons/thumb/5/5b/Pudgy_Penguins_Logo.jpg/1200px-Pudgy_Penguins_Logo.jpg?format=webp&width=1022&height=536" alt="Pudgy Penguins Logo">
-    <h1>Welcome to Pudgy Penguins Shop</h1>
+    
+    <div class="lang lang-en active">
+      <h1>Welcome to Pudgy Penguins Shop</h1>
+    </div>
+    <div class="lang lang-fa">
+      <h1>به فروشگاه پاجی پنگوئن خوش آمدید</h1>
+    </div>
   </header>
 
   <div class="buttons">
@@ -164,33 +191,83 @@
 
   <section class="features">
     <div class="feature">
-      <h3>Safe Transfers</h3>
-      <p>Secure delivery methods to avoid any risks or bans.</p>
+      <div class="lang lang-en active">
+        <h3>Safe Transfers</h3>
+        <p>Secure delivery methods to avoid any risks or bans.</p>
+      </div>
+      <div class="lang lang-fa">
+        <h3>انتقال‌های ایمن</h3>
+        <p>تحویل ایمن بدون ریسک بن شدن یا مشکلات دیگر.</p>
+      </div>
     </div>
+
     <div class="feature">
-      <h3>Local Payments</h3>
-      <p>Pay easily without needing international cards or crypto.</p>
+      <div class="lang lang-en active">
+        <h3>Local Payments</h3>
+        <p>Pay easily without needing international cards or crypto.</p>
+      </div>
+      <div class="lang lang-fa">
+        <h3>پرداخت محلی</h3>
+        <p>بدون نیاز به کارت بین‌المللی یا ارز دیجیتال خرید کنید.</p>
+      </div>
     </div>
+
     <div class="feature">
-      <h3>Fast Delivery</h3>
-      <p>Orders processed and delivered within minutes whenever possible.</p>
+      <div class="lang lang-en active">
+        <h3>Fast Delivery</h3>
+        <p>Orders processed and delivered within minutes whenever possible.</p>
+      </div>
+      <div class="lang lang-fa">
+        <h3>تحویل سریع</h3>
+        <p>سفارش‌ها در کمترین زمان ممکن پردازش و تحویل می‌شوند.</p>
+      </div>
     </div>
+
     <div class="feature">
-      <h3>Farm-Ready Accounts</h3>
-      <p>Choose from Skyblock-ready accounts optimized for farming.</p>
+      <div class="lang lang-en active">
+        <h3>Farm-Ready Accounts</h3>
+        <p>Choose from Skyblock-ready accounts optimized for farming.</p>
+      </div>
+      <div class="lang lang-fa">
+        <h3>اکانت‌های آماده فارم</h3>
+        <p>اکانت‌های اسکای‌بلاک آماده برای فارم و بهره‌برداری.</p>
+      </div>
     </div>
+
     <div class="feature">
-      <h3>Trusted by Hundreds</h3>
-      <p>500+ satisfied players and counting, you are in good hands.</p>
+      <div class="lang lang-en active">
+        <h3>Trusted by Hundreds</h3>
+        <p>500+ satisfied players and counting, you are in good hands.</p>
+      </div>
+      <div class="lang lang-fa">
+        <h3>اعتماد صدها بازیکن</h3>
+        <p>بیش از ۵۰۰ بازیکن از خدمات ما رضایت دارند.</p>
+      </div>
     </div>
+
     <div class="feature">
-      <h3>24/7 Discord Support</h3>
-      <p>Our team is ready to help you anytime through Discord.</p>
+      <div class="lang lang-en active">
+        <h3>24/7 Discord Support</h3>
+        <p>Our team is ready to help you anytime through Discord.</p>
+      </div>
+      <div class="lang lang-fa">
+        <h3>پشتیبانی ۲۴/۷ در دیسکورد</h3>
+        <p>تیم ما همیشه آماده پاسخگویی از طریق دیسکورد است.</p>
+      </div>
     </div>
   </section>
 
   <footer>
     &copy; 2025 Pudgy Penguins. All rights reserved.
   </footer>
+
+  <script>
+    function setLanguage(lang) {
+      document.querySelectorAll('.lang').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.lang-' + lang).forEach(el => el.classList.add('active'));
+
+      document.body.dir = (lang === 'fa') ? 'rtl' : 'ltr';
+    }
+  </script>
 </body>
 </html>

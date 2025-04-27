@@ -5,6 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Account Showcase - Pudgy Penguins</title>
   <style>
+    /* Base styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
     body {
       background-color: #e9f7fa;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -13,43 +20,122 @@
       flex-direction: column;
       min-height: 100vh;
       color: #20324f;
+      overflow-x: hidden;
     }
+
+    /* Topbar styles */
     .topbar {
-      background-color: #ffffff;
-      padding: 1rem 2rem;
+      background-color: rgba(255, 255, 255, 0.9);
+      padding: 1rem;
       display: flex;
       flex-wrap: wrap;
-      justify-content: center;
+      justify-content: space-between;
       align-items: center;
-      gap: 1rem;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      position: relative;
+      z-index: 1000;
     }
+
     .topbar h2 {
       margin: 0;
       font-size: 1.6rem;
       color: #5093c4;
-      flex: 1 1 100%;
-      text-align: center;
     }
-    .topbar nav {
+
+    /* Navigation for desktop */
+    .desktop-nav {
       display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 1rem;
+      gap: 1.5rem;
+      align-items: center;
     }
-    .topbar nav a {
+
+    .desktop-nav a {
       text-decoration: none;
       color: #20324f;
       font-weight: 500;
       transition: color 0.3s ease;
     }
-    .topbar nav a:hover {
+
+    .desktop-nav a:hover {
       color: #5093c4;
     }
+
+    /* Hamburger menu */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      justify-content: space-between;
+      width: 30px;
+      height: 21px;
+      cursor: pointer;
+      z-index: 1001;
+    }
+
+    .hamburger span {
+      display: block;
+      height: 3px;
+      width: 100%;
+      background-color: #5093c4;
+      border-radius: 2px;
+      transition: all 0.3s ease;
+    }
+
+    /* Mobile nav menu */
+    .mobile-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background-color: rgba(255, 255, 255, 0.98);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 1.5rem;
+      transform: translateX(100%);
+      transition: transform 0.4s cubic-bezier(0.77, 0, 0.175, 1);
+      z-index: 999;
+    }
+
+    .mobile-nav.active {
+      transform: translateX(0);
+    }
+
+    .mobile-nav a {
+      text-decoration: none;
+      color: #20324f;
+      font-weight: 600;
+      font-size: 1.2rem;
+      transition: all 0.3s ease;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+    }
+
+    .mobile-nav a:hover {
+      color: #5093c4;
+      background-color: rgba(80, 147, 196, 0.1);
+    }
+
+    /* When menu is open */
+    .hamburger.active span:nth-child(1) {
+      transform: translateY(9px) rotate(45deg);
+    }
+
+    .hamburger.active span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .hamburger.active span:nth-child(3) {
+      transform: translateY(-9px) rotate(-45deg);
+    }
+
+    /* Language toggle */
     .lang-toggle {
       display: flex;
       gap: 0.5rem;
     }
+
     .lang-toggle button {
       padding: 6px 12px;
       background-color: #5093c4;
@@ -58,89 +144,197 @@
       border-radius: 6px;
       font-weight: 600;
       cursor: pointer;
-      transition: background 0.3s;
+      transition: all 0.3s ease;
     }
+
     .lang-toggle button:hover {
       background-color: #3a6b91;
+      transform: translateY(-2px);
     }
+
+    /* Main content */
     h1 {
       color: #5093c4;
       text-align: center;
-      margin-top: 2rem;
+      margin: 2.5rem 0 1rem;
+      animation: fadeInUp 0.8s ease;
     }
+
+    /* Category Switch Buttons */
     .switch-buttons {
       text-align: center;
-      margin: 2rem 0 1rem;
+      margin: 1.5rem 0;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      padding: 0 1rem;
     }
+
     .switch-buttons button {
       background-color: #5093c4;
       color: white;
       border: none;
-      padding: 0.7rem 1.5rem;
-      margin: 0 0.5rem;
-      border-radius: 10px;
+      padding: 0.8rem 1.6rem;
+      border-radius: 12px;
       font-size: 1rem;
       font-weight: 600;
       cursor: pointer;
-      transition: background 0.3s;
+      transition: all 0.3s ease;
+      flex: 1 0 auto;
+      max-width: 180px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
-    .switch-buttons button:hover,
-    .switch-buttons button.active {
+
+    .switch-buttons button:hover {
       background-color: #3a729e;
+      transform: translateY(-3px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
     }
+
+    .switch-buttons button.active {
+      background-color: #20324f;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .switch-buttons button.active::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      animation: shine 2s infinite;
+    }
+
+    @keyframes shine {
+      to {
+        left: 100%;
+      }
+    }
+
+    /* Grid layouts */
     .grid {
       display: none;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
       gap: 1.5rem;
-      padding: 2rem;
-      width: 100%;
+      padding: 1rem 2rem 3rem;
       max-width: 1200px;
-      margin: auto;
+      margin: 0 auto;
+      animation: fadeIn 0.8s ease;
     }
+
     .grid.active {
       display: grid;
     }
+
+    /* Card styles */
     .card {
       background-color: rgba(255, 255, 255, 0.95);
-      padding: 1.5rem;
-      border-radius: 12px;
+      padding: 1.8rem;
+      border-radius: 16px;
       text-align: center;
-      box-shadow: 0 6px 16px rgba(0,0,0,0.08);
-      transition: transform 0.3s;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+      transition: all 0.4s ease;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeInUp 0.8s forwards;
+      animation-delay: calc(var(--delay) * 0.1s);
     }
+
     .card:hover {
-      transform: translateY(-6px);
+      transform: translateY(-10px) scale(1.02);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
     }
+
     .card img {
       width: 100px;
       height: 100px;
-      border-radius: 8px;
+      border-radius: 50%;
       margin-bottom: 1rem;
+      border: 4px solid #5093c4;
+      transition: all 0.4s ease;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     }
+
+    .card:hover img {
+      transform: scale(1.1) rotate(5deg);
+      border-color: #20324f;
+    }
+
     .card h3 {
       margin-bottom: 0.8rem;
       color: #5093c4;
-      font-size: 1.2rem;
+      font-size: 1.3rem;
+      position: relative;
+      display: inline-block;
     }
+
+    .card h3::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 2px;
+      background-color: #5093c4;
+      transition: width 0.3s ease;
+    }
+
+    .card:hover h3::after {
+      width: 80%;
+    }
+
     .card .buttons {
       display: flex;
       justify-content: center;
-      gap: 0.5rem;
-      margin-top: 1rem;
+      gap: 0.8rem;
+      margin-top: 1.2rem;
     }
+
     .card .buttons a {
       text-decoration: none;
-      padding: 0.5rem 1rem;
+      padding: 0.6rem 1rem;
       background-color: #5093c4;
       color: white;
       border-radius: 8px;
       font-weight: 600;
       font-size: 0.9rem;
-      transition: background 0.3s ease;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 8px rgba(80, 147, 196, 0.3);
     }
+
     .card .buttons a:hover {
       background-color: #3a729e;
+      transform: translateY(-3px);
+      box-shadow: 0 6px 12px rgba(80, 147, 196, 0.4);
     }
+
+    /* Category Mobile Toggle */
+    .category-mobile-toggle {
+      display: none;
+      margin: 1.5rem auto;
+      background-color: #5093c4;
+      color: white;
+      border: none;
+      padding: 0.8rem 1.2rem;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      width: 80%;
+      max-width: 280px;
+      text-align: center;
+    }
+
+    .category-mobile-toggle:hover {
+      background-color: #3a729e;
+    }
+
     footer {
       background-color: rgba(80, 147, 196, 0.95);
       color: #ffffff;
@@ -149,191 +343,405 @@
       margin-top: auto;
       font-size: 0.9rem;
     }
+
     .lang {
       display: none;
     }
+
     .lang.active {
       display: block;
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Media queries */
+    @media (max-width: 768px) {
+      .desktop-nav {
+        display: none;
+      }
+      
+      .hamburger {
+        display: flex;
+      }
+      
+      .topbar {
+        padding: 1rem 1.5rem;
+      }
+      
+      .switch-buttons {
+        display: none;
+      }
+      
+      .category-mobile-toggle {
+        display: block;
+      }
+      
+      .grid {
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        gap: 1rem;
+        padding: 1rem;
+      }
+      
+      .card {
+        padding: 1.2rem;
+      }
+      
+      .card .buttons {
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+      
+      h1 {
+        font-size: 1.6rem;
+        margin-top: 1.5rem;
+      }
     }
   </style>
 </head>
 
 <body>
+  <div class="topbar">
+    <h2>Pudgy Penguins</h2>
+    
+    <!-- Desktop Navigation -->
+    <div class="desktop-nav">
+      <a href="index.html">Home</a>
+      <a href="coin-calculator.html">Coins</a>
+      <a href="account-showcase.html">Accounts</a>
+      <a href="vouches.html">Vouches</a>
+      <a href="https://discord.com/invite/4EchrPDbw8" target="_blank">Discord</a>
+      
+      <div class="lang-toggle">
+        <button onclick="setLanguage('en')">EN</button>
+        <button onclick="setLanguage('fa')">FA</button>
+      </div>
+    </div>
+    
+    <!-- Hamburger Menu (Mobile) -->
+    <div class="hamburger" onclick="toggleMobileMenu()">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </div>
 
-<div class="topbar">
-  <h2>Pudgy Penguins</h2>
-  <nav>
+  <!-- Mobile Navigation -->
+  <div class="mobile-nav">
     <a href="index.html">Home</a>
     <a href="coin-calculator.html">Coins</a>
     <a href="account-showcase.html">Accounts</a>
     <a href="vouches.html">Vouches</a>
     <a href="https://discord.com/invite/4EchrPDbw8" target="_blank">Discord</a>
-  </nav>
-  <div class="lang-toggle">
-    <button onclick="setLanguage('en')">EN</button>
-    <button onclick="setLanguage('fa')">FA</button>
+    
+    <div class="lang-toggle">
+      <button onclick="setLanguage('en')">EN</button>
+      <button onclick="setLanguage('fa')">FA</button>
+    </div>
   </div>
-</div>
 
-<div class="lang lang-en active">
-  <h1>Showcase</h1>
-</div>
-<div class="lang lang-fa">
-  <h1>ویترین اکانت ها</h1>
-</div>
+  <div class="lang lang-en active">
+    <h1>Showcase</h1>
+  </div>
+  <div class="lang lang-fa">
+    <h1>ویترین اکانت ها</h1>
+  </div>
 
-<div class="switch-buttons">
-  <button id="showAccountsBtn" class="active" onclick="switchCategory('accounts')">
-    <span class="lang lang-en active">Accounts</span>
-    <span class="lang lang-fa">اکانت‌ها</span>
+  <!-- Desktop Category Switcher -->
+  <div class="switch-buttons">
+    <button id="showAccountsBtn" class="active" onclick="switchCategory('accounts')">
+      <span class="lang lang-en active">Accounts</span>
+      <span class="lang lang-fa">اکانت‌ها</span>
+    </button>
+    <button id="showProfilesBtn" onclick="switchCategory('profiles')">
+      <span class="lang lang-en active">Profiles</span>
+      <span class="lang lang-fa">پروفایل‌ها</span>
+    </button>
+  </div>
+
+  <!-- Mobile Category Toggle Button -->
+  <button class="category-mobile-toggle" id="categoryToggleBtn">
+    <span class="lang lang-en active">Switch to Profiles</span>
+    <span class="lang lang-fa">تغییر به پروفایل‌ها</span>
   </button>
-  <button id="showProfilesBtn" onclick="switchCategory('profiles')">
-    <span class="lang lang-en active">Profiles</span>
-    <span class="lang lang-fa">پروفایل‌ها</span>
-  </button>
-</div>
 
-<!-- Accounts Grid -->
-<div class="grid active" id="accountsGrid">
-  <!-- 7 account cards -->
-  <div class="card">
-    <img src="https://mc-heads.net/avatar/Username1" alt="Minecraft Head">
-    <h3>Username1</h3>
-    <div class="buttons">
-      <a href="https://discord.gg/4EchrPDbw8" target="_blank">Buy Now</a>
-      <a href="https://cupcake.shiiyu.moe/stats/Username1" target="_blank">Stats</a>
+  <!-- Accounts Grid -->
+  <div class="grid active" id="accountsGrid">
+    <!-- 7 account cards -->
+    <div class="card" style="--delay: 1">
+      <img src="https://mc-heads.net/avatar/Username1" alt="Minecraft Head">
+      <h3>Username1</h3>
+      <div class="buttons">
+        <a href="https://discord.gg/4EchrPDbw8" target="_blank">
+          <span class="lang lang-en active">Buy Now</span>
+          <span class="lang lang-fa">خرید</span>
+        </a>
+        <a href="https://cupcake.shiiyu.moe/stats/Username1" target="_blank">
+          <span class="lang lang-en active">Stats</span>
+          <span class="lang lang-fa">آمار</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="card" style="--delay: 2">
+      <img src="https://mc-heads.net/avatar/Username2" alt="Minecraft Head">
+      <h3>Username2</h3>
+      <div class="buttons">
+        <a href="https://discord.gg/4EchrPDbw8" target="_blank">
+          <span class="lang lang-en active">Buy Now</span>
+          <span class="lang lang-fa">خرید</span>
+        </a>
+        <a href="https://cupcake.shiiyu.moe/stats/Username2" target="_blank">
+          <span class="lang lang-en active">Stats</span>
+          <span class="lang lang-fa">آمار</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="card" style="--delay: 3">
+      <img src="https://mc-heads.net/avatar/Username3" alt="Minecraft Head">
+      <h3>Username3</h3>
+      <div class="buttons">
+        <a href="https://discord.gg/4EchrPDbw8" target="_blank">
+          <span class="lang lang-en active">Buy Now</span>
+          <span class="lang lang-fa">خرید</span>
+        </a>
+        <a href="https://cupcake.shiiyu.moe/stats/Username3" target="_blank">
+          <span class="lang lang-en active">Stats</span>
+          <span class="lang lang-fa">آمار</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="card" style="--delay: 4">
+      <img src="https://mc-heads.net/avatar/Username4" alt="Minecraft Head">
+      <h3>Username4</h3>
+      <div class="buttons">
+        <a href="https://discord.gg/4EchrPDbw8" target="_blank">
+          <span class="lang lang-en active">Buy Now</span>
+          <span class="lang lang-fa">خرید</span>
+        </a>
+        <a href="https://cupcake.shiiyu.moe/stats/Username4" target="_blank">
+          <span class="lang lang-en active">Stats</span>
+          <span class="lang lang-fa">آمار</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="card" style="--delay: 5">
+      <img src="https://mc-heads.net/avatar/Username5" alt="Minecraft Head">
+      <h3>Username5</h3>
+      <div class="buttons">
+        <a href="https://discord.gg/4EchrPDbw8" target="_blank">
+          <span class="lang lang-en active">Buy Now</span>
+          <span class="lang lang-fa">خرید</span>
+        </a>
+        <a href="https://cupcake.shiiyu.moe/stats/Username5" target="_blank">
+          <span class="lang lang-en active">Stats</span>
+          <span class="lang lang-fa">آمار</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="card" style="--delay: 6">
+      <img src="https://mc-heads.net/avatar/Username6" alt="Minecraft Head">
+      <h3>Username6</h3>
+      <div class="buttons">
+        <a href="https://discord.gg/4EchrPDbw8" target="_blank">
+          <span class="lang lang-en active">Buy Now</span>
+          <span class="lang lang-fa">خرید</span>
+        </a>
+        <a href="https://cupcake.shiiyu.moe/stats/Username6" target="_blank">
+          <span class="lang lang-en active">Stats</span>
+          <span class="lang lang-fa">آمار</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="card" style="--delay: 7">
+      <img src="https://mc-heads.net/avatar/Username7" alt="Minecraft Head">
+      <h3>Username7</h3>
+      <div class="buttons">
+        <a href="https://discord.gg/4EchrPDbw8" target="_blank">
+          <span class="lang lang-en active">Buy Now</span>
+          <span class="lang lang-fa">خرید</span>
+        </a>
+        <a href="https://cupcake.shiiyu.moe/stats/Username7" target="_blank">
+          <span class="lang lang-en active">Stats</span>
+          <span class="lang lang-fa">آمار</span>
+        </a>
+      </div>
     </div>
   </div>
 
-  <div class="card">
-    <img src="https://mc-heads.net/avatar/Username2" alt="Minecraft Head">
-    <h3>Username2</h3>
-    <div class="buttons">
-      <a href="https://discord.gg/4EchrPDbw8" target="_blank">Buy Now</a>
-      <a href="https://cupcake.shiiyu.moe/stats/Username2" target="_blank">Stats</a>
+  <!-- Profiles Grid -->
+  <div class="grid" id="profilesGrid">
+    <!-- 5 profile cards -->
+    <div class="card" style="--delay: 1">
+      <img src="https://mc-heads.net/avatar/ProfileUser1" alt="Minecraft Head">
+      <h3>Profile1</h3>
+      <div class="buttons">
+        <a href="https://discord.gg/4EchrPDbw8" target="_blank">
+          <span class="lang lang-en active">View Profile</span>
+          <span class="lang lang-fa">مشاهده پروفایل</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="card" style="--delay: 2">
+      <img src="https://mc-heads.net/avatar/ProfileUser2" alt="Minecraft Head">
+      <h3>Profile2</h3>
+      <div class="buttons">
+        <a href="https://discord.gg/4EchrPDbw8" target="_blank">
+          <span class="lang lang-en active">View Profile</span>
+          <span class="lang lang-fa">مشاهده پروفایل</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="card" style="--delay: 3">
+      <img src="https://mc-heads.net/avatar/ProfileUser3" alt="Minecraft Head">
+      <h3>Profile3</h3>
+      <div class="buttons">
+        <a href="https://discord.gg/4EchrPDbw8" target="_blank">
+          <span class="lang lang-en active">View Profile</span>
+          <span class="lang lang-fa">مشاهده پروفایل</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="card" style="--delay: 4">
+      <img src="https://mc-heads.net/avatar/ProfileUser4" alt="Minecraft Head">
+      <h3>Profile4</h3>
+      <div class="buttons">
+        <a href="https://discord.gg/4EchrPDbw8" target="_blank">
+          <span class="lang lang-en active">View Profile</span>
+          <span class="lang lang-fa">مشاهده پروفایل</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="card" style="--delay: 5">
+      <img src="https://mc-heads.net/avatar/ProfileUser5" alt="Minecraft Head">
+      <h3>Profile5</h3>
+      <div class="buttons">
+        <a href="https://discord.gg/4EchrPDbw8" target="_blank">
+          <span class="lang lang-en active">View Profile</span>
+          <span class="lang lang-fa">مشاهده پروفایل</span>
+        </a>
+      </div>
     </div>
   </div>
 
-  <div class="card">
-    <img src="https://mc-heads.net/avatar/Username3" alt="Minecraft Head">
-    <h3>Username3</h3>
-    <div class="buttons">
-      <a href="https://discord.gg/4EchrPDbw8" target="_blank">Buy Now</a>
-      <a href="https://cupcake.shiiyu.moe/stats/Username3" target="_blank">Stats</a>
-    </div>
-  </div>
+  <footer>
+    &copy; 2025 Pudgy Penguins. All rights reserved.
+  </footer>
 
-  <div class="card">
-    <img src="https://mc-heads.net/avatar/Username4" alt="Minecraft Head">
-    <h3>Username4</h3>
-    <div class="buttons">
-      <a href="https://discord.gg/4EchrPDbw8" target="_blank">Buy Now</a>
-      <a href="https://cupcake.shiiyu.moe/stats/Username4" target="_blank">Stats</a>
-    </div>
-  </div>
+  <script>
+    // Set delay for card animations
+    document.addEventListener('DOMContentLoaded', function() {
+      const cards = document.querySelectorAll('.card');
+      cards.forEach((card, index) => {
+        card.style.setProperty('--delay', index + 1);
+      });
+    });
 
-  <div class="card">
-    <img src="https://mc-heads.net/avatar/Username5" alt="Minecraft Head">
-    <h3>Username5</h3>
-    <div class="buttons">
-      <a href="https://discord.gg/4EchrPDbw8" target="_blank">Buy Now</a>
-      <a href="https://cupcake.shiiyu.moe/stats/Username5" target="_blank">Stats</a>
-    </div>
-  </div>
+    function switchCategory(category) {
+      const accountsGrid = document.getElementById('accountsGrid');
+      const profilesGrid = document.getElementById('profilesGrid');
+      const accountsBtn = document.getElementById('showAccountsBtn');
+      const profilesBtn = document.getElementById('showProfilesBtn');
+      const toggleBtn = document.getElementById('categoryToggleBtn');
 
-  <div class="card">
-    <img src="https://mc-heads.net/avatar/Username6" alt="Minecraft Head">
-    <h3>Username6</h3>
-    <div class="buttons">
-      <a href="https://discord.gg/4EchrPDbw8" target="_blank">Buy Now</a>
-      <a href="https://cupcake.shiiyu.moe/stats/Username6" target="_blank">Stats</a>
-    </div>
-  </div>
-
-  <div class="card">
-    <img src="https://mc-heads.net/avatar/Username7" alt="Minecraft Head">
-    <h3>Username7</h3>
-    <div class="buttons">
-      <a href="https://discord.gg/4EchrPDbw8" target="_blank">Buy Now</a>
-      <a href="https://cupcake.shiiyu.moe/stats/Username7" target="_blank">Stats</a>
-    </div>
-  </div>
-</div>
-
-<!-- Profiles Grid -->
-<div class="grid" id="profilesGrid">
-  <!-- 5 profile cards -->
-  <div class="card">
-    <img src="https://mc-heads.net/avatar/ProfileUser1" alt="Minecraft Head">
-    <h3>Profile1</h3>
-    <div class="buttons">
-      <a href="https://discord.gg/4EchrPDbw8" target="_blank">View Profile</a>
-    </div>
-  </div>
-
-  <div class="card">
-    <img src="https://mc-heads.net/avatar/ProfileUser2" alt="Minecraft Head">
-    <h3>Profile2</h3>
-    <div class="buttons">
-      <a href="https://discord.gg/4EchrPDbw8" target="_blank">View Profile</a>
-    </div>
-  </div>
-
-  <div class="card">
-    <img src="https://mc-heads.net/avatar/ProfileUser3" alt="Minecraft Head">
-    <h3>Profile3</h3>
-    <div class="buttons">
-      <a href="https://discord.gg/4EchrPDbw8" target="_blank">View Profile</a>
-    </div>
-  </div>
-
-  <div class="card">
-    <img src="https://mc-heads.net/avatar/ProfileUser4" alt="Minecraft Head">
-    <h3>Profile4</h3>
-    <div class="buttons">
-      <a href="https://discord.gg/4EchrPDbw8" target="_blank">View Profile</a>
-    </div>
-  </div>
-
-  <div class="card">
-    <img src="https://mc-heads.net/avatar/ProfileUser5" alt="Minecraft Head">
-    <h3>Profile5</h3>
-    <div class="buttons">
-      <a href="https://discord.gg/4EchrPDbw8" target="_blank">View Profile</a>
-    </div>
-  </div>
-</div>
-
-<footer>
-  &copy; 2025 Pudgy Penguins. All rights reserved.
-</footer>
-
-<script>
-  function switchCategory(category) {
-    const accountsGrid = document.getElementById('accountsGrid');
-    const profilesGrid = document.getElementById('profilesGrid');
-    const accountsBtn = document.getElementById('showAccountsBtn');
-    const profilesBtn = document.getElementById('showProfilesBtn');
-
-    if (category === 'accounts') {
-      accountsGrid.classList.add('active');
-      profilesGrid.classList.remove('active');
-      accountsBtn.classList.add('active');
-      profilesBtn.classList.remove('active');
-    } else {
-      profilesGrid.classList.add('active');
-      accountsGrid.classList.remove('active');
-      profilesBtn.classList.add('active');
-      accountsBtn.classList.remove('active');
+      if (category === 'accounts') {
+        accountsGrid.classList.add('active');
+        profilesGrid.classList.remove('active');
+        accountsBtn.classList.add('active');
+        profilesBtn.classList.remove('active');
+        
+        document.querySelectorAll('.lang-en.active').forEach(el => {
+          if (el.closest('#categoryToggleBtn')) {
+            el.textContent = 'Switch to Profiles';
+          }
+        });
+        
+        document.querySelectorAll('.lang-fa.active').forEach(el => {
+          if (el.closest('#categoryToggleBtn')) {
+            el.textContent = 'تغییر به پروفایل‌ها';
+          }
+        });
+        
+      } else {
+        profilesGrid.classList.add('active');
+        accountsGrid.classList.remove('active');
+        profilesBtn.classList.add('active');
+        accountsBtn.classList.remove('active');
+        
+        document.querySelectorAll('.lang-en.active').forEach(el => {
+          if (el.closest('#categoryToggleBtn')) {
+            el.textContent = 'Switch to Accounts';
+          }
+        });
+        
+        document.querySelectorAll('.lang-fa.active').forEach(el => {
+          if (el.closest('#categoryToggleBtn')) {
+            el.textContent = 'تغییر به اکانت‌ها';
+          }
+        });
+      }
+      
+      // Reset animation
+      const cards = document.querySelectorAll('.card');
+      cards.forEach(card => {
+        card.style.animation = 'none';
+        void card.offsetWidth; // Trigger reflow
+        card.style.animation = 'fadeInUp 0.8s forwards';
+        card.style.animationDelay = `calc(var(--delay) * 0.1s)`;
+      });
     }
-  }
 
-  function setLanguage(lang) {
-    document.querySelectorAll('.lang').forEach(el => el.classList.remove('active'));
-    document.querySelectorAll('.lang-' + lang).forEach(el => el.classList.add('active'));
-    document.body.dir = (lang === 'fa') ? 'rtl' : 'ltr';
-  }
-</script>
+    function toggleMobileMenu() {
+      const hamburger = document.querySelector('.hamburger');
+      const mobileNav = document.querySelector('.mobile-nav');
+      
+      hamburger.classList.toggle('active');
+      mobileNav.classList.toggle('active');
+      
+      // Prevent scrolling when menu is open
+      document.body.style.overflow = hamburger.classList.contains('active') ? 'hidden' : 'auto';
+    }
 
+    function setLanguage(lang) {
+      document.querySelectorAll('.lang').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.lang-' + lang).forEach(el => el.classList.add('active'));
+      document.body.dir = (lang === 'fa') ? 'rtl' : 'ltr';
+    }
+    
+    // Mobile category toggle button functionality
+    document.getElementById('categoryToggleBtn').addEventListener('click', function() {
+      const accountsGrid = document.getElementById('accountsGrid');
+      const currentCategory = accountsGrid.classList.contains('active') ? 'accounts' : 'profiles';
+      const newCategory = currentCategory === 'accounts' ? 'profiles' : 'accounts';
+      switchCategory(newCategory);
+    });
+  </script>
 </body>
 </html>

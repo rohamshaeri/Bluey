@@ -5,6 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Pudgy Penguins - Home</title>
   <style>
+    /* Base styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
     body {
       background-color: #e9f7fa;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -13,49 +20,120 @@
       flex-direction: column;
       min-height: 100vh;
       color: #20324f;
+      overflow-x: hidden;
     }
 
+    /* Topbar styles */
     .topbar {
       background-color: rgba(255, 255, 255, 0.9);
-      padding: 1rem 2rem;
+      padding: 1rem;
       display: flex;
       flex-wrap: wrap;
-      justify-content: center;
+      justify-content: space-between;
       align-items: center;
-      gap: 1rem;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      position: relative;
+      z-index: 1000;
     }
 
     .topbar h2 {
       margin: 0;
       font-size: 1.6rem;
       color: #5093c4;
-      flex: 1 1 100%;
-      text-align: center;
     }
 
-    .topbar nav {
+    /* Navigation for desktop */
+    .desktop-nav {
       display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 1rem;
+      gap: 1.5rem;
+      align-items: center;
     }
 
-    .topbar nav a {
+    .desktop-nav a {
       text-decoration: none;
       color: #20324f;
       font-weight: 500;
       transition: color 0.3s ease;
     }
 
-    .topbar nav a:hover {
+    .desktop-nav a:hover {
       color: #5093c4;
     }
 
+    /* Hamburger menu */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      justify-content: space-between;
+      width: 30px;
+      height: 21px;
+      cursor: pointer;
+      z-index: 1001;
+    }
+
+    .hamburger span {
+      display: block;
+      height: 3px;
+      width: 100%;
+      background-color: #5093c4;
+      border-radius: 2px;
+      transition: all 0.3s ease;
+    }
+
+    /* Mobile nav menu */
+    .mobile-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background-color: rgba(255, 255, 255, 0.98);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 1.5rem;
+      transform: translateX(100%);
+      transition: transform 0.4s cubic-bezier(0.77, 0, 0.175, 1);
+      z-index: 999;
+    }
+
+    .mobile-nav.active {
+      transform: translateX(0);
+    }
+
+    .mobile-nav a {
+      text-decoration: none;
+      color: #20324f;
+      font-weight: 600;
+      font-size: 1.2rem;
+      transition: all 0.3s ease;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+    }
+
+    .mobile-nav a:hover {
+      color: #5093c4;
+      background-color: rgba(80, 147, 196, 0.1);
+    }
+
+    /* When menu is open */
+    .hamburger.active span:nth-child(1) {
+      transform: translateY(9px) rotate(45deg);
+    }
+
+    .hamburger.active span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .hamburger.active span:nth-child(3) {
+      transform: translateY(-9px) rotate(-45deg);
+    }
+
+    /* Language toggle */
     .lang-toggle {
       display: flex;
       gap: 0.5rem;
-      margin-top: 0.5rem;
     }
 
     .lang-toggle button {
@@ -66,68 +144,123 @@
       border-radius: 6px;
       font-weight: 600;
       cursor: pointer;
-      transition: background 0.3s;
+      transition: background 0.3s, transform 0.2s;
     }
 
     .lang-toggle button:hover {
       background-color: #3a6b91;
+      transform: translateY(-2px);
     }
 
+    /* Header styles */
     header {
       text-align: center;
       margin: 3rem 1rem 2rem;
+      animation: fadeInUp 0.8s ease;
     }
 
     header img {
       width: 140px;
       border-radius: 16px;
       margin-bottom: 1rem;
+      transition: transform 0.4s ease;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
     }
 
+    header img:hover {
+      transform: scale(1.05) rotate(2deg);
+    }
+
+    header h1 {
+      color: #5093c4;
+      margin-bottom: 1rem;
+    }
+
+    /* Feature buttons */
     .buttons {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 1.5rem;
-      margin: 2rem;
+      gap: 1rem;
+      margin: 2rem 1rem;
+      animation: fadeInUp 1s ease;
     }
 
     .buttons a {
-      padding: 1rem 2rem;
+      padding: 1rem 1.5rem;
       background-color: #5093c4;
       color: white;
       text-decoration: none;
       border-radius: 12px;
       font-weight: 600;
-      transition: background 0.3s ease;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(80, 147, 196, 0.3);
     }
 
     .buttons a:hover {
       background-color: #3a6b91;
+      transform: translateY(-5px);
+      box-shadow: 0 8px 16px rgba(80, 147, 196, 0.4);
     }
 
+    /* Features grid */
     .features {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 1.5rem;
-      max-width: 1000px;
+      max-width: 1200px;
       margin: 2rem auto;
-      padding: 0 1rem;
+      padding: 0 1.5rem;
+      animation: fadeInUp 1.2s ease;
     }
 
     .feature {
       background: rgba(255, 255, 255, 0.9);
       padding: 1.5rem;
       border-radius: 16px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
       text-align: center;
-      transition: transform 0.3s ease;
+      transition: all 0.4s ease;
+      overflow: hidden;
+      position: relative;
     }
 
     .feature:hover {
-      transform: translateY(-5px);
+      transform: translateY(-10px);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
     }
 
+    .feature::before {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 4px;
+      bottom: 0;
+      left: 0;
+      background-color: #5093c4;
+      transform: scaleX(0);
+      transform-origin: bottom right;
+      transition: transform 0.4s ease;
+    }
+
+    .feature:hover::before {
+      transform: scaleX(1);
+      transform-origin: bottom left;
+    }
+
+    .feature h3 {
+      color: #5093c4;
+      margin-bottom: 0.8rem;
+      position: relative;
+      display: inline-block;
+    }
+
+    .feature p {
+      color: #405268;
+      line-height: 1.6;
+    }
+
+    /* Footer styles */
     footer {
       background-color: rgba(80, 147, 196, 0.95);
       color: white;
@@ -137,21 +270,66 @@
       font-size: 0.9rem;
     }
 
-    @media (max-width: 600px) {
-      .topbar nav {
-        flex-direction: column;
-      }
-      .buttons {
-        flex-direction: column;
-      }
-    }
-
-    /* Hide/Show Languages */
+    /* Languages */
     .lang {
       display: none;
     }
+    
     .lang.active {
       display: block;
+    }
+
+    /* Animations */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.05);
+      }
+      100% {
+        transform: scale(1);
+      }
+    }
+
+    /* Media queries */
+    @media (max-width: 768px) {
+      .desktop-nav {
+        display: none;
+      }
+      
+      .hamburger {
+        display: flex;
+      }
+      
+      .topbar {
+        padding: 1rem 1.5rem;
+      }
+      
+      .features {
+        grid-template-columns: 1fr;
+      }
+      
+      .buttons {
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .buttons a {
+        width: 80%;
+        text-align: center;
+      }
     }
   </style>
 </head>
@@ -159,13 +337,37 @@
 <body>
   <div class="topbar">
     <h2>Pudgy Penguins</h2>
-    <nav>
-      <a href="#">Home</a>
+    
+    <!-- Desktop Navigation -->
+    <div class="desktop-nav">
+      <a href="index.html">Home</a>
       <a href="coin-calculator.html">Coins</a>
       <a href="account-showcase.html">Accounts</a>
       <a href="vouches.html">Vouches</a>
       <a href="https://discord.gg/4EchrPDbw8" target="_blank">Discord</a>
-    </nav>
+      
+      <div class="lang-toggle">
+        <button onclick="setLanguage('en')">EN</button>
+        <button onclick="setLanguage('fa')">FA</button>
+      </div>
+    </div>
+    
+    <!-- Hamburger Menu (Mobile) -->
+    <div class="hamburger" onclick="toggleMobileMenu()">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </div>
+
+  <!-- Mobile Navigation -->
+  <div class="mobile-nav">
+    <a href="index.html">Home</a>
+    <a href="coin-calculator.html">Coins</a>
+    <a href="account-showcase.html">Accounts</a>
+    <a href="vouches.html">Vouches</a>
+    <a href="https://discord.gg/4EchrPDbw8" target="_blank">Discord</a>
+    
     <div class="lang-toggle">
       <button onclick="setLanguage('en')">EN</button>
       <button onclick="setLanguage('fa')">FA</button>
@@ -173,8 +375,7 @@
   </div>
 
   <header>
-    <img src="https://images-ext-1.discordapp.net/external/iYtFW-2XbeFqRl1r4r3Wjo2WLPQ9eHKmqqQnpyQgyFY/https/upload.wikimedia.org/wikipedia/commons/thumb/5/5b/Pudgy_Penguins_Logo.jpg/1200px-Pudgy_Penguins_Logo.jpg?format=webp&width=1022&height=536" alt="Pudgy Penguins Logo">
-    
+    <img src="https://i.imgur.com/gcfk2Iv.jpg" alt="Pudgy Penguins Logo">    
     <div class="lang lang-en active">
       <h1>Welcome to Pudgy Penguins Shop</h1>
     </div>
@@ -265,9 +466,41 @@
     function setLanguage(lang) {
       document.querySelectorAll('.lang').forEach(el => el.classList.remove('active'));
       document.querySelectorAll('.lang-' + lang).forEach(el => el.classList.add('active'));
-
       document.body.dir = (lang === 'fa') ? 'rtl' : 'ltr';
     }
+    
+    function toggleMobileMenu() {
+      const hamburger = document.querySelector('.hamburger');
+      const mobileNav = document.querySelector('.mobile-nav');
+      
+      hamburger.classList.toggle('active');
+      mobileNav.classList.toggle('active');
+      
+      // Prevent scrolling when menu is open
+      document.body.style.overflow = hamburger.classList.contains('active') ? 'hidden' : 'auto';
+    }
+    
+    // Add animations to features on scroll
+    document.addEventListener('DOMContentLoaded', function() {
+      const features = document.querySelectorAll('.feature');
+      
+      // Simple animation when features come into view
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.style.opacity = 1;
+            entry.target.style.transform = 'translateY(0)';
+          }
+        });
+      }, { threshold: 0.1 });
+      
+      features.forEach(feature => {
+        feature.style.opacity = 0;
+        feature.style.transform = 'translateY(20px)';
+        feature.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        observer.observe(feature);
+      });
+    });
   </script>
 </body>
 </html>

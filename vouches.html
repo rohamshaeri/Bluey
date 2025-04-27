@@ -5,6 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Pudgy Penguins - Vouches</title>
   <style>
+    /* Base styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
     body {
       background-color: #e9f7fa;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -13,43 +20,122 @@
       flex-direction: column;
       min-height: 100vh;
       color: #20324f;
+      overflow-x: hidden;
     }
+
+    /* Topbar styles */
     .topbar {
-      background-color: #ffffff;
-      padding: 1rem 2rem;
+      background-color: rgba(255, 255, 255, 0.9);
+      padding: 1rem;
       display: flex;
       flex-wrap: wrap;
-      justify-content: center;
+      justify-content: space-between;
       align-items: center;
-      gap: 1rem;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      position: relative;
+      z-index: 1000;
     }
+
     .topbar h2 {
       margin: 0;
       font-size: 1.6rem;
       color: #5093c4;
-      flex: 1 1 100%;
-      text-align: center;
     }
-    .topbar nav {
+
+    /* Navigation for desktop */
+    .desktop-nav {
       display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 1rem;
+      gap: 1.5rem;
+      align-items: center;
     }
-    .topbar nav a {
+
+    .desktop-nav a {
       text-decoration: none;
       color: #20324f;
       font-weight: 500;
       transition: color 0.3s ease;
     }
-    .topbar nav a:hover {
+
+    .desktop-nav a:hover {
       color: #5093c4;
     }
+
+    /* Hamburger menu */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      justify-content: space-between;
+      width: 30px;
+      height: 21px;
+      cursor: pointer;
+      z-index: 1001;
+    }
+
+    .hamburger span {
+      display: block;
+      height: 3px;
+      width: 100%;
+      background-color: #5093c4;
+      border-radius: 2px;
+      transition: all 0.3s ease;
+    }
+
+    /* Mobile nav menu */
+    .mobile-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background-color: rgba(255, 255, 255, 0.98);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 1.5rem;
+      transform: translateX(100%);
+      transition: transform 0.4s cubic-bezier(0.77, 0, 0.175, 1);
+      z-index: 999;
+    }
+
+    .mobile-nav.active {
+      transform: translateX(0);
+    }
+
+    .mobile-nav a {
+      text-decoration: none;
+      color: #20324f;
+      font-weight: 600;
+      font-size: 1.2rem;
+      transition: all 0.3s ease;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+    }
+
+    .mobile-nav a:hover {
+      color: #5093c4;
+      background-color: rgba(80, 147, 196, 0.1);
+    }
+
+    /* When menu is open */
+    .hamburger.active span:nth-child(1) {
+      transform: translateY(9px) rotate(45deg);
+    }
+
+    .hamburger.active span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .hamburger.active span:nth-child(3) {
+      transform: translateY(-9px) rotate(-45deg);
+    }
+
+    /* Language toggle */
     .lang-toggle {
       display: flex;
       gap: 0.5rem;
     }
+
     .lang-toggle button {
       padding: 6px 12px;
       background-color: #5093c4;
@@ -58,50 +144,154 @@
       border-radius: 6px;
       font-weight: 600;
       cursor: pointer;
-      transition: background 0.3s;
+      transition: all 0.3s ease;
     }
+
     .lang-toggle button:hover {
       background-color: #3a6b91;
+      transform: translateY(-2px);
     }
+
+    /* Main content */
     h1 {
       text-align: center;
       color: #5093c4;
-      margin: 2rem 0 1rem;
+      margin: 2.5rem 0 1rem;
+      animation: fadeInUp 0.8s ease;
     }
+
+    /* Vouch container */
     .vouch-container {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
       gap: 1.5rem;
-      padding: 2rem;
-      max-width: 1100px;
-      margin: auto;
+      padding: 1.5rem;
+      max-width: 1200px;
+      margin: 1rem auto 3rem;
     }
+
+    /* Vouch card */
     .vouch-card {
       background: #ffffff;
-      border-radius: 12px;
-      padding: 1rem 1.25rem;
-      box-shadow: 0 6px 16px rgba(0,0,0,0.08);
-      transition: transform 0.3s;
+      border-radius: 16px;
+      padding: 1.5rem;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+      transition: all 0.4s ease;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeInUp 0.8s forwards;
+      animation-delay: calc(var(--delay) * 0.1s);
+      position: relative;
+      overflow: hidden;
     }
+
     .vouch-card:hover {
-      transform: translateY(-4px);
+      transform: translateY(-10px) scale(1.02);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.14);
     }
+
+    .vouch-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 0;
+      background-color: #5093c4;
+      transition: height 0.4s ease;
+    }
+
+    .vouch-card:hover::before {
+      height: 100%;
+    }
+
     .vouch-card h3 {
-      margin-bottom: 0.4rem;
+      margin-bottom: 1rem;
       color: #20324f;
-      font-size: 1.1rem;
+      font-size: 1.2rem;
+      position: relative;
+      display: inline-block;
     }
+
+    .vouch-card h3::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background-color: #5093c4;
+      transition: width 0.3s ease;
+    }
+
+    .vouch-card:hover h3::after {
+      width: 100%;
+    }
+
     .vouch-card p {
-      margin: 0.3rem 0;
+      margin: 0.4rem 0;
       font-size: 0.95rem;
       color: #405268;
     }
+
+    .vouch-card p strong {
+      color: #20324f;
+      font-weight: 600;
+    }
+
     .vouch-card small {
       display: block;
-      margin-top: 0.8rem;
+      margin-top: 1rem;
       font-size: 0.8rem;
       color: #888;
+      font-style: italic;
     }
+
+    /* Filter buttons */
+    .filter-container {
+      text-align: center;
+      margin: 1rem auto 2rem;
+      max-width: 800px;
+      padding: 0 1.5rem;
+      animation: fadeIn 1s ease;
+    }
+
+    .filter-title {
+      font-size: 0.9rem;
+      margin-bottom: 0.8rem;
+      color: #405268;
+    }
+
+    .filter-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .filter-button {
+      padding: 0.5rem 1rem;
+      background-color: #e0eef7;
+      color: #20324f;
+      border: none;
+      border-radius: 30px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .filter-button:hover {
+      background-color: #c6e0f0;
+      transform: translateY(-2px);
+    }
+
+    .filter-button.active {
+      background-color: #5093c4;
+      color: white;
+      font-weight: 600;
+    }
+
+    /* Footer */
     footer {
       background-color: rgba(80, 147, 196, 0.95);
       color: white;
@@ -110,11 +300,69 @@
       margin-top: auto;
       font-size: 0.9rem;
     }
+
+    /* Languages */
     .lang {
       display: none;
     }
+
     .lang.active {
       display: block;
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Media queries */
+    @media (max-width: 768px) {
+      .desktop-nav {
+        display: none;
+      }
+      
+      .hamburger {
+        display: flex;
+      }
+      
+      .topbar {
+        padding: 1rem 1.5rem;
+      }
+      
+      .vouch-container {
+        grid-template-columns: 1fr;
+        padding: 1rem;
+      }
+      
+      h1 {
+        font-size: 1.6rem;
+        margin-top: 1.5rem;
+      }
+      
+      .filter-buttons {
+        gap: 0.4rem;
+      }
+      
+      .filter-button {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.8rem;
+      }
     }
   </style>
 </head>
@@ -122,13 +370,37 @@
 
 <div class="topbar">
   <h2>Pudgy Penguins</h2>
-  <nav>
+  
+  <!-- Desktop Navigation -->
+  <div class="desktop-nav">
     <a href="index.html">Home</a>
     <a href="coin-calculator.html">Coins</a>
     <a href="account-showcase.html">Accounts</a>
     <a href="vouches.html">Vouches</a>
-    <a href="https://discord.gg/4EchrPDbw8" target="_blank">Discord</a>
-  </nav>
+    <a href="https://discord.com/invite/4EchrPDbw8" target="_blank">Discord</a>
+    
+    <div class="lang-toggle">
+      <button onclick="setLanguage('en')">EN</button>
+      <button onclick="setLanguage('fa')">FA</button>
+    </div>
+  </div>
+  
+  <!-- Hamburger Menu (Mobile) -->
+  <div class="hamburger" onclick="toggleMobileMenu()">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+
+<!-- Mobile Navigation -->
+<div class="mobile-nav">
+  <a href="index.html">Home</a>
+  <a href="coin-calculator.html">Coins</a>
+  <a href="account-showcase.html">Accounts</a>
+  <a href="vouches.html">Vouches</a>
+  <a href="https://discord.com/invite/4EchrPDbw8" target="_blank">Discord</a>
+  
   <div class="lang-toggle">
     <button onclick="setLanguage('en')">EN</button>
     <button onclick="setLanguage('fa')">FA</button>
@@ -142,10 +414,26 @@
   <h1>رضایت مشتریان</h1>
 </div>
 
-<div class="vouch-container">
+<!-- Filter Section -->
+<div class="filter-container">
+  <div class="lang lang-en active">
+    <div class="filter-title">Filter by Seller:</div>
+  </div>
+  <div class="lang lang-fa">
+    <div class="filter-title">فیلتر بر اساس فروشنده:</div>
+  </div>
+  
+  <div class="filter-buttons">
+    <button class="filter-button active" data-seller="all">All</button>
+    <button class="filter-button" data-seller="BlackAmo">BlackAmo</button>
+    <button class="filter-button" data-seller="Bluey">Bluey 👑</button>
+    <button class="filter-button" data-seller="Lingu">Lingu</button>
+  </div>
+</div>
 
+<div class="vouch-container">
   <!-- Vouch 11 -->
-  <div class="vouch-card">
+  <div class="vouch-card" data-seller="BlackAmo" style="--delay: 1">
     <h3>Vouch #11</h3>
     <p><strong>Seller:</strong> @BlackAmo</p>
     <div class="lang lang-en active">
@@ -158,7 +446,7 @@
   </div>
 
   <!-- Vouch 10 -->
-  <div class="vouch-card">
+  <div class="vouch-card" data-seller="Bluey" style="--delay: 2">
     <h3>Vouch #10</h3>
     <p><strong>Seller:</strong> @Bluey 👑</p>
     <div class="lang lang-en active">
@@ -171,7 +459,7 @@
   </div>
 
   <!-- Vouch 9 -->
-  <div class="vouch-card">
+  <div class="vouch-card" data-seller="Bluey" style="--delay: 3">
     <h3>Vouch #9</h3>
     <p><strong>Seller:</strong> @Bluey 👑</p>
     <div class="lang lang-en active">
@@ -184,7 +472,7 @@
   </div>
 
   <!-- Vouch 8 -->
-  <div class="vouch-card">
+  <div class="vouch-card" data-seller="BlackAmo" style="--delay: 4">
     <h3>Vouch #8</h3>
     <p><strong>Seller:</strong> @BlackAmo</p>
     <div class="lang lang-en active">
@@ -197,7 +485,7 @@
   </div>
 
   <!-- Vouch 7 -->
-  <div class="vouch-card">
+  <div class="vouch-card" data-seller="BlackAmo" style="--delay: 5">
     <h3>Vouch #7</h3>
     <p><strong>Seller:</strong> @BlackAmo</p>
     <div class="lang lang-en active">
@@ -210,7 +498,7 @@
   </div>
 
   <!-- Vouch 6 -->
-  <div class="vouch-card">
+  <div class="vouch-card" data-seller="Bluey" style="--delay: 6">
     <h3>Vouch #6</h3>
     <p><strong>Seller:</strong> @Bluey 👑</p>
     <div class="lang lang-en active">
@@ -223,7 +511,7 @@
   </div>
 
   <!-- Vouch 5 -->
-  <div class="vouch-card">
+  <div class="vouch-card" data-seller="Lingu" style="--delay: 7">
     <h3>Vouch #5</h3>
     <p><strong>Seller:</strong> @Lingu</p>
     <div class="lang lang-en active">
@@ -236,7 +524,7 @@
   </div>
 
   <!-- Vouch 4 -->
-  <div class="vouch-card">
+  <div class="vouch-card" data-seller="Bluey" style="--delay: 8">
     <h3>Vouch #4</h3>
     <p><strong>Seller:</strong> @Bluey 👑</p>
     <div class="lang lang-en active">
@@ -247,7 +535,9 @@
     </div>
     <small>by neverbackagain • 4/18/2025</small>
   </div>
-  <div class="vouch-card">
+
+  <!-- Vouch 3 -->
+  <div class="vouch-card" data-seller="Bluey" style="--delay: 9">
     <h3>Vouch #3</h3>
     <p><strong>Seller:</strong> @Bluey 👑</p>
     <div class="lang lang-en active">
@@ -260,7 +550,7 @@
   </div>
   
   <!-- Vouch 2 -->
-  <div class="vouch-card">
+  <div class="vouch-card" data-seller="Bluey" style="--delay: 10">
     <h3>Vouch #2</h3>
     <p><strong>Seller:</strong> @Bluey 👑</p>
     <div class="lang lang-en active">
@@ -273,7 +563,7 @@
   </div>
 
   <!-- Vouch 1 -->
-  <div class="vouch-card">
+  <div class="vouch-card" data-seller="Bluey" style="--delay: 11">
     <h3>Vouch #1</h3>
     <p><strong>Seller:</strong> @Bluey 👑</p>
     <div class="lang lang-en active">
@@ -284,7 +574,6 @@
     </div>
     <small>by khodeamo • 4/18/2025</small>
   </div>
-
 </div>
 
 <footer>
@@ -292,11 +581,71 @@
 </footer>
 
 <script>
+  // Set delay for card animations
+  document.addEventListener('DOMContentLoaded', function() {
+    const cards = document.querySelectorAll('.vouch-card');
+    cards.forEach((card, index) => {
+      card.style.setProperty('--delay', index + 1);
+    });
+  });
+
+  function toggleMobileMenu() {
+    const hamburger = document.querySelector('.hamburger');
+    const mobileNav = document.querySelector('.mobile-nav');
+    
+    hamburger.classList.toggle('active');
+    mobileNav.classList.toggle('active');
+    
+    // Prevent scrolling when menu is open
+    document.body.style.overflow = hamburger.classList.contains('active') ? 'hidden' : 'auto';
+  }
+
   function setLanguage(lang) {
     document.querySelectorAll('.lang').forEach(el => el.classList.remove('active'));
     document.querySelectorAll('.lang-' + lang).forEach(el => el.classList.add('active'));
     document.body.dir = (lang === 'fa') ? 'rtl' : 'ltr';
   }
+  
+  // Filter functionality
+  const filterButtons = document.querySelectorAll('.filter-button');
+  
+  filterButtons.forEach(button => {
+    button.addEventListener('click', function() {
+      // Remove active class from all buttons
+      filterButtons.forEach(btn => btn.classList.remove('active'));
+      
+      // Add active class to clicked button
+      this.classList.add('active');
+      
+      // Get the seller value
+      const seller = this.getAttribute('data-seller');
+      
+      // Filter the vouch cards
+      const vouchCards = document.querySelectorAll('.vouch-card');
+      
+      vouchCards.forEach(card => {
+        if (seller === 'all' || card.getAttribute('data-seller') === seller) {
+          card.style.display = 'block';
+          // Reset animation
+          card.style.animation = 'none';
+          void card.offsetWidth; // Trigger reflow
+          card.style.animation = 'fadeInUp 0.8s forwards';
+          card.style.animationDelay = `calc(var(--delay) * 0.1s)`;
+        } else {
+          card.style.display = 'none';
+        }
+      });
+      
+      // Reassign the --delay values for visible cards
+      const visibleCards = Array.from(vouchCards).filter(card => 
+        seller === 'all' || card.getAttribute('data-seller') === seller
+      );
+      
+      visibleCards.forEach((card, index) => {
+        card.style.setProperty('--delay', index + 1);
+      });
+    });
+  });
 </script>
 
 </body>
